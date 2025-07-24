@@ -8,7 +8,7 @@ website:
     left:
       - href: project1-2.ipynb
         text: project1-2
-      - href: 타이타닉 데이터 분석.ipynb
+      - href: titan.ipynb
         text: 타이타닉 데이터 분석
 format:
   html:
