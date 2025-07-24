@@ -132,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">project1-2</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./타이타닉 데이터 분석.iptnb"> 
+    <a class="nav-link" href="./타이타닉 데이터 분석.ipynb"> 
 <span class="menu-text">타이타닉 데이터 분석</span></a>
   </li>  
 </ul>
@@ -166,7 +166,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#분류모델-학습" id="toc-분류모델-학습" class="nav-link" data-scroll-target="#분류모델-학습">5.분류모델 학습</a></li>
   </ul></li>
-  <li><a href="#타이타닉-데이터-분석." id="toc-타이타닉-데이터-분석." class="nav-link" data-scroll-target="#타이타닉-데이터-분석.">타이타닉 데이터 분석….</a></li>
+  <li><a href="#타이타닉-데이터-분석" id="toc-타이타닉-데이터-분석" class="nav-link" data-scroll-target="#타이타닉-데이터-분석">타이타닉 데이터 분석</a>
+  <ul class="collapse">
+  <li><a href="#데이터-탐색-1" id="toc-데이터-탐색-1" class="nav-link" data-scroll-target="#데이터-탐색-1">1. 데이터 탐색</a></li>
+  <li><a href="#데이터-전처리" id="toc-데이터-전처리" class="nav-link" data-scroll-target="#데이터-전처리">2. 데이터 전처리</a></li>
+  <li><a href="#예측-모델-학습" id="toc-예측-모델-학습" class="nav-link" data-scroll-target="#예측-모델-학습">3. 예측 모델 학습</a></li>
+  <li><a href="#변수-중요도-해석" id="toc-변수-중요도-해석" class="nav-link" data-scroll-target="#변수-중요도-해석">4. 변수 중요도 해석</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -1108,10 +1114,194 @@ k=19일 때 정확도 : 0.942</code></pre>
 </div>
 </section>
 </section>
-<section id="타이타닉-데이터-분석." class="level1">
-<h1>타이타닉 데이터 분석….</h1>
+<section id="타이타닉-데이터-분석" class="level1">
+<h1>타이타닉 데이터 분석</h1>
+<div id="8f891f91-0246-4a80-856b-66c318ec7936" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> sns.load_dataset(<span class="st">'titanic'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="데이터-탐색-1" class="level2">
+<h2 class="anchored" data-anchor-id="데이터-탐색-1">1. 데이터 탐색</h2>
+<div id="a48adb17-f545-4eb6-9ee7-a80ef15652ae" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋의 기본 정보를 확인합니다</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>df.info()</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋의 상위 5개 행을 출력합니다</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>df.head()</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 기초 통계 정보 확인</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>df.describe()</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 결측치 확인</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 15 columns):
+ #   Column       Non-Null Count  Dtype   
+---  ------       --------------  -----   
+ 0   survived     891 non-null    int64   
+ 1   pclass       891 non-null    int64   
+ 2   sex          891 non-null    object  
+ 3   age          714 non-null    float64 
+ 4   sibsp        891 non-null    int64   
+ 5   parch        891 non-null    int64   
+ 6   fare         891 non-null    float64 
+ 7   embarked     889 non-null    object  
+ 8   class        891 non-null    category
+ 9   who          891 non-null    object  
+ 10  adult_male   891 non-null    bool    
+ 11  deck         203 non-null    category
+ 12  embark_town  889 non-null    object  
+ 13  alive        891 non-null    object  
+ 14  alone        891 non-null    bool    
+dtypes: bool(2), category(2), float64(2), int64(4), object(5)
+memory usage: 80.7+ KB</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>survived         0
+pclass           0
+sex              0
+age            177
+sibsp            0
+parch            0
+fare             0
+embarked         2
+class            0
+who              0
+adult_male       0
+deck           688
+embark_town      2
+alive            0
+alone            0
+dtype: int64</code></pre>
+</div>
+</div>
+</section>
+<section id="데이터-전처리" class="level2">
+<h2 class="anchored" data-anchor-id="데이터-전처리">2. 데이터 전처리</h2>
+<div id="c195e62e-c58d-4249-957b-d9e6efd213c1" class="cell" data-scrolled="true" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결측치 처리</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'age'</span>].fillna(df[<span class="st">'age'</span>].mean(), inplace<span class="op">=</span><span class="va">True</span>)  <span class="co"># 나이 평균값으로 대체</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'embarked'</span>].fillna(df[<span class="st">'embarked'</span>].mode()[<span class="dv">0</span>], inplace<span class="op">=</span><span class="va">True</span>)  <span class="co"># 승선 항구 최빈값으로 대체</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 'cabin', 'ticket', 'name' 열은 예측에 큰 영향을 미치지 않으므로 삭제</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co">#df.drop(columns=['cabin', 'ticket', 'name'], inplace=True)</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 결측치 다시 확인</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\Public\Documents\ESTsoft\CreatorTemp\ipykernel_12656\1544689094.py:2: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work because the intermediate object on which we are setting values always behaves as a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using 'df.method({col: value}, inplace=True)' or df[col] = df[col].method(value) instead, to perform the operation inplace on the original object.
 
 
+  df['age'].fillna(df['age'].mean(), inplace=True)  # 나이 평균값으로 대체
+C:\Users\Public\Documents\ESTsoft\CreatorTemp\ipykernel_12656\1544689094.py:3: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work because the intermediate object on which we are setting values always behaves as a copy.
+
+For example, when doing 'df[col].method(value, inplace=True)', try using 'df.method({col: value}, inplace=True)' or df[col] = df[col].method(value) instead, to perform the operation inplace on the original object.
+
+
+  df['embarked'].fillna(df['embarked'].mode()[0], inplace=True)  # 승선 항구 최빈값으로 대체</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>survived         0
+pclass           0
+sex              0
+age              0
+sibsp            0
+parch            0
+fare             0
+embarked         0
+class            0
+who              0
+adult_male       0
+deck           688
+embark_town      2
+alive            0
+alone            0
+dtype: int64</code></pre>
+</div>
+</div>
+<div id="89efda20-2211-4c9c-84b6-fa695ce74c9f" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 성별을 숫자로 변환 (male: 0, female: 1)</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'sex'</span>] <span class="op">=</span> df[<span class="st">'sex'</span>].<span class="bu">map</span>({<span class="st">'male'</span>: <span class="dv">0</span>, <span class="st">'female'</span>: <span class="dv">1</span>})</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 승선 항구를 숫자로 변환 (C: 0, Q: 1, S: 2)</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'embarked'</span>] <span class="op">=</span> df[<span class="st">'embarked'</span>].<span class="bu">map</span>({<span class="st">'C'</span>: <span class="dv">0</span>, <span class="st">'Q'</span>: <span class="dv">1</span>, <span class="st">'S'</span>: <span class="dv">2</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f2e38225-eb3f-4e8e-a49f-241ba913bf5a" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> MinMaxScaler()</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'age'</span>, <span class="st">'fare'</span>]] <span class="op">=</span> scaler.fit_transform(df[[<span class="st">'age'</span>, <span class="st">'fare'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="예측-모델-학습" class="level2">
+<h2 class="anchored" data-anchor-id="예측-모델-학습">3. 예측 모델 학습</h2>
+<div id="489cd94b-4d28-4125-86dd-0a6cc55061ed" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, confusion_matrix</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 특성 변수(X)와 타겟 변수(y) 설정</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">'pclass'</span>, <span class="st">'sex'</span>, <span class="st">'age'</span>, <span class="st">'sibsp'</span>, <span class="st">'parch'</span>, <span class="st">'fare'</span>, <span class="st">'embarked'</span>]]</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'survived'</span>]</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 훈련 세트와 테스트 세트로 분리 (80% 훈련, 20% 테스트)</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic Regression 모델 학습</span></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">500</span>)</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 예측</span></span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 정확도 및 혼동 행렬 출력</span></span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, accuracy_score(y_test, y_pred))</span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Confusion Matrix:</span><span class="ch">\n</span><span class="st">"</span>, confusion_matrix(y_test, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy: 0.7988826815642458
+Confusion Matrix:
+ [[88 17]
+ [19 55]]</code></pre>
+</div>
+</div>
+</section>
+<section id="변수-중요도-해석" class="level2">
+<h2 class="anchored" data-anchor-id="변수-중요도-해석">4. 변수 중요도 해석</h2>
+<div id="5f7a296d-d43b-45bd-9e11-ea2a47fd7743" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델의 회귀 계수 확인 (변수 중요도)</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>feature_importance <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Feature'</span>: X.columns,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Coefficient'</span>: model.coef_[<span class="dv">0</span>]</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 중요도 순으로 정렬</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>feature_importance <span class="op">=</span> feature_importance.sort_values(by<span class="op">=</span><span class="st">'Coefficient'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(feature_importance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Feature  Coefficient
+1       sex     2.587206
+5      fare     0.513029
+4     parch    -0.084344
+6  embarked    -0.247871
+3     sibsp    -0.263686
+0    pclass    -0.923115
+2       age    -1.725817</code></pre>
+</div>
+</div>
+
+
+</section>
 </section>
 
 </main> <!-- /main -->
